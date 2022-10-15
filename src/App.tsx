@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { Board, GuessResult, Score } from './components';
 
-enum PossibleResults {
-  YES = 'Right guess!',
-  NO = 'Wrong guess!',
-}
+import { PossibleResults } from './components/guessResult/GuessResult';
 
 function App() {
   const [boardColor, setBoardColor] = useState('#fff');
@@ -13,7 +11,7 @@ function App() {
     undefined
   );
   const [score, setScore] = useState({
-    right: 0,
+    correct: 0,
     wrong: 0,
   });
 
@@ -30,7 +28,7 @@ function App() {
       setGuessResult(PossibleResults.YES);
       setScore(prevScore => ({
         ...prevScore,
-        right: prevScore.right + 1,
+        correct: prevScore.correct + 1,
       }));
 
       startGame();
@@ -59,36 +57,11 @@ function App() {
     <div className="App">
       <h1>Try guess the color</h1>
 
-      <div className="score">
-        <span>
-          Hits: <span className="right">{score.right}</span>
-        </span>
-        <span>
-          Misses: <span className="wrong">{score.wrong}</span>
-        </span>
-      </div>
+      <Score {...score} />
 
-      <div
-        className="color-board"
-        style={{ background: boardColor, outline: boardColor }}
-      />
+      <Board color={boardColor} guesses={guesses} handleGuess={handleGuess} />
 
-      <div className="guesses-container">
-        {guesses?.map(guess => (
-          <button key={guess} onClick={() => handleGuess(guess)}>
-            {guess}
-          </button>
-        ))}
-      </div>
-
-      <p className="guess">
-        {guessResult === PossibleResults.YES && (
-          <span className="right">{PossibleResults.YES}</span>
-        )}
-        {guessResult === PossibleResults.NO && (
-          <span className="wrong">{PossibleResults.NO}</span>
-        )}
-      </p>
+      <GuessResult guess={guessResult} />
     </div>
   );
 }
