@@ -55,7 +55,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Try guess the color</h1>
+      <h1>Try to guess the color</h1>
 
       <Score {...score} />
 
